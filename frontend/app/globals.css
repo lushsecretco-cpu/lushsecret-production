@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --color-brand-light: #fbcfe8;
+  --color-brand-main: #f9a8d4;
+  --color-dark-bg: #0b0b10;
+  --color-dark-secondary: #1a0a15;
+}
+
+* {
+  scrollbar-color: #f9a8d4 #0b0b10;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0b10;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f9a8d4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #fbcfe8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-[#0b0b10] text-white/90;
+  background: linear-gradient(135deg, #0b0b10 0%, #1a0a15 100%);
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(249, 168, 212, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(251, 207, 232, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  position: relative;
+  z-index: 1;
+}
+
+/* Buttons */
+.btn-luxury {
+  @apply px-6 py-3 rounded-lg font-light tracking-wide transition-all duration-300;
+  background: linear-gradient(135deg, #f9a8d4 0%, #fbcfe8 100%);
+  color: #0b0b10;
+}
+
+.btn-luxury:hover {
+  background: linear-gradient(135deg, #fbcfe8 0%, #f9a8d4 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(249, 168, 212, 0.3);
+}
+
+.btn-luxury-outline {
+  @apply px-6 py-3 rounded-lg font-light tracking-wide border-2 border-rose-300 text-rose-300 transition-all duration-300;
+}
+
+.btn-luxury-outline:hover {
+  @apply bg-rose-300 text-[#0b0b10];
+  box-shadow: 0 8px 24px rgba(249, 168, 212, 0.2);
+}
+
+/* Cards */
+.card-luxury {
+  @apply backdrop-blur-md bg-white/5 border border-white/10 rounded-xl;
+  transition: all 0.3s ease;
+}
+
+.card-luxury:hover {
+  @apply bg-white/10 border-rose-300/30;
+  box-shadow: 0 8px 32px rgba(249, 168, 212, 0.15);
+}
+
+/* Inputs */
+input, textarea {
+  @apply bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  @apply border-rose-300 bg-white/10;
+  box-shadow: 0 0 20px rgba(249, 168, 212, 0.2);
+  outline: none;
+}
+
+/* Links & Accents */
+a {
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  @apply text-rose-300;
+}
+
+/* Dividers */
+hr {
+  @apply border-white/10;
+}
+
+/* Selection */
+::selection {
+  @apply bg-rose-300 text-[#0b0b10];
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  @apply text-white font-light;
+}
+
+h1 {
+  @apply text-4xl sm:text-5xl lg:text-6xl;
+}
+
+h2 {
+  @apply text-3xl sm:text-4xl;
+}
+
+h3 {
+  @apply text-2xl sm:text-3xl;
+}
+
+/* Luxurious text shadow for titles */
+.luxury-title {
+  text-shadow: 0 0 20px rgba(249, 168, 212, 0.2);
+}
+
+/* Badge */
+.badge-luxury {
+  @apply inline-block px-3 py-1 rounded-full text-xs font-light;
+  background: linear-gradient(135deg, rgba(249, 168, 212, 0.2) 0%, rgba(251, 207, 232, 0.1) 100%);
+  border: 1px solid rgba(249, 168, 212, 0.3);
+  color: #fbcfe8;
+}

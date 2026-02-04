@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/.next",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://lushsecret.onrender.com/api",
+    "NEXTAUTH_URL": "https://lushsecret.vercel.app",
+    "NEXTAUTH_SECRET": "lushsecret_super_secret_key_2026"
+  }
+}
