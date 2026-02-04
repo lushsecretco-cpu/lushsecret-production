@@ -23,9 +23,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
-  'https://lushsecret.vercel.app',
-  'https://lushsecret.co',
-  'https://www.lushsecret.co',
+  'https://lushsecret-production.vercel.app',
   ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [])
 ];
 
