@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import pool, { testConnection } from './db.js';
+import initDatabase from './init-db.js';
 import authRoutes from './routes/authRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import productRoutes from './routes/productRoutes.js';
@@ -109,6 +110,12 @@ const startServer = async () => {
         console.error('❌ Failed to connect to database. Exiting...');
         process.exit(1);
       }
+    }
+
+    // Initialize database (create tables and admin user if needed)
+    if (process.env.NODE_ENV === 'production') {
+      console.log('🔧 Inicializando base de datos...');
+      await initDatabase();
     }
 
     app.listen(PORT, () => {
