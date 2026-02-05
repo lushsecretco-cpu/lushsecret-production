@@ -88,6 +88,47 @@ export default function CrearProductoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <style>{`
+        .admin-input {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+          border-color: #e5e7eb !important;
+        }
+        .admin-input:focus {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+          border-color: #ec4899 !important;
+          box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1) !important;
+        }
+        .admin-input::placeholder {
+          color: #9ca3af !important;
+        }
+        .admin-textarea {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+          border-color: #e5e7eb !important;
+        }
+        .admin-textarea:focus {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+          border-color: #ec4899 !important;
+          box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1) !important;
+        }
+        .admin-textarea::placeholder {
+          color: #9ca3af !important;
+        }
+        .admin-select {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+          border-color: #e5e7eb !important;
+        }
+        .admin-select:focus {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+          border-color: #ec4899 !important;
+          box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1) !important;
+        }
+      `}</style>
       <div className="container py-12 max-w-2xl">
         <div className="flex items-center gap-4 mb-8">
           <Link href="/admin/productos" className="text-brand-600 hover:text-brand-700">
@@ -107,7 +148,7 @@ export default function CrearProductoPage() {
                 value={form.name}
                 onChange={handleChange}
                 placeholder="Ej: Vibrador Recargable"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-600"
+                className="admin-input w-full px-4 py-2 border rounded-lg focus:outline-none"
                 required
               />
             </div>
@@ -121,7 +162,7 @@ export default function CrearProductoPage() {
                 value={form.slug}
                 onChange={handleChange}
                 placeholder="vibrador-recargable"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-600"
+                className="admin-input w-full px-4 py-2 border rounded-lg focus:outline-none"
                 required
               />
               <p className="text-xs text-gray-500 mt-1">Se genera automáticamente desde el nombre</p>
@@ -136,7 +177,7 @@ export default function CrearProductoPage() {
                 onChange={handleChange}
                 placeholder="Describe el producto en detalle..."
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-600"
+                className="admin-textarea w-full px-4 py-2 border rounded-lg focus:outline-none"
               />
             </div>
 
@@ -147,7 +188,7 @@ export default function CrearProductoPage() {
                 name="category_id"
                 value={form.category_id}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-600"
+                className="admin-select w-full px-4 py-2 border rounded-lg focus:outline-none"
                 required
               >
                 <option value="">Selecciona una categoría</option>
@@ -169,7 +210,7 @@ export default function CrearProductoPage() {
                   value={form.price}
                   onChange={handleChange}
                   placeholder="45000"
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-600"
+                  className="admin-input w-full px-4 py-2 border rounded-lg focus:outline-none"
                   required
                 />
               </div>
@@ -182,7 +223,7 @@ export default function CrearProductoPage() {
                   value={form.stock}
                   onChange={handleChange}
                   placeholder="10"
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-600"
+                  className="admin-input w-full px-4 py-2 border rounded-lg focus:outline-none"
                   required
                 />
               </div>
@@ -197,7 +238,7 @@ export default function CrearProductoPage() {
                 value={form.main_image_url}
                 onChange={handleChange}
                 placeholder="https://via.placeholder.com/500x500"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-600"
+                className="admin-input w-full px-4 py-2 border rounded-lg focus:outline-none"
               />
             </div>
 
