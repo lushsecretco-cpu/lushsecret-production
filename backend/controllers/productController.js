@@ -78,7 +78,16 @@ export const getProductById = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    res.json(result.rows[0]);
+    // Obtener tallas del producto
+    const sizesResult = await pool.query(
+      'SELECT id, size, stock FROM product_sizes WHERE product_id = $1 ORDER BY size',
+      [id]
+    );
+
+    const product = result.rows[0];
+    product.sizes = sizesResult.rows;
+
+    res.json(product);
   } catch (err) {
     console.error('Get product error:', err);
     res.status(500).json({ message: 'Error fetching product', error: err.message });
@@ -117,7 +126,7 @@ export const getProductBySlug = async (req, res) => {
 // CREATE producto (ADMIN)
 export const createProduct = async (req, res) => {
   try {
-    const { categoryId, name, slug, description, price, stock } = req.body;
+    const { categoryId, name, slug, description, price, stock, sizes } = req.body;
     const adminId = req.user?.id;
 
     if (!categoryId || !name || !slug || !price) {
@@ -137,9 +146,29 @@ export const createProduct = async (req, res) => {
       [categoryId, name, slug, description, price, stock || 0, adminId]
     );
 
+    const productId = result.rows[0].id;
+
+    // Agregar tallas si se proporcionan
+    if (sizes && Array.isArray(sizes) && sizes.length > 0) {
+      for (const size of sizes) {
+        await pool.query(
+          'INSERT INTO product_sizes (product_id, size, stock) VALUES ($1, $2, $3)',
+          [productId, size.size, size.stock || 0]
+        );
+      }
+    }
+
+    // Obtener producto con tallas
+    const product = result.rows[0];
+    const sizesResult = await pool.query(
+      'SELECT id, size, stock FROM product_sizes WHERE product_id = $1 ORDER BY size',
+      [productId]
+    );
+    product.sizes = sizesResult.rows;
+
     res.status(201).json({
       message: 'Product created successfully',
-      product: result.rows[0]
+      product
     });
   } catch (err) {
     console.error('Create product error:', err);
@@ -151,7 +180,7 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, price, stock } = req.body;
+    const { name, description, price, stock, sizes } = req.body;
 
     const result = await pool.query(
       `UPDATE products 
@@ -168,7 +197,29 @@ export const updateProduct = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    res.json({ message: 'Product updated successfully', product: result.rows[0] });
+    // Actualizar tallas si se proporcionan
+    if (sizes && Array.isArray(sizes)) {
+      // Eliminar tallas antiguas
+      await pool.query('DELETE FROM product_sizes WHERE product_id = $1', [id]);
+      
+      // Agregar nuevas tallas
+      for (const size of sizes) {
+        await pool.query(
+          'INSERT INTO product_sizes (product_id, size, stock) VALUES ($1, $2, $3)',
+          [id, size.size, size.stock || 0]
+        );
+      }
+    }
+
+    // Obtener producto actualizado con tallas
+    const product = result.rows[0];
+    const sizesResult = await pool.query(
+      'SELECT id, size, stock FROM product_sizes WHERE product_id = $1 ORDER BY size',
+      [id]
+    );
+    product.sizes = sizesResult.rows;
+
+    res.json({ message: 'Product updated successfully', product });
   } catch (err) {
     console.error('Update product error:', err);
     res.status(500).json({ message: 'Error updating product', error: err.message });
@@ -238,6 +289,7 @@ export const getProductStats = async (req, res) => {
     res.status(500).json({ message: 'Error fetching stats', error: err.message });
   }
 };
+
 export const uploadMedia = async (req, res) => {
   try {
     if (!req.file) {

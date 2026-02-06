@@ -214,6 +214,20 @@ CREATE INDEX idx_email_logs_user ON email_logs(user_id);
 CREATE INDEX idx_email_logs_order ON email_logs(order_id);
 CREATE INDEX idx_email_logs_sent ON email_logs(sent_at);
 
+-- ============= PRODUCT_SIZES TABLE (Tallas de productos) =============
+CREATE TABLE product_sizes (
+  id SERIAL PRIMARY KEY,
+  product_id INTEGER NOT NULL,
+  size VARCHAR(50) NOT NULL,
+  stock INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+  CONSTRAINT unique_product_size UNIQUE (product_id, size)
+);
+
+CREATE INDEX idx_product_sizes_product ON product_sizes(product_id);
+
 -- ============= Initial Categories =============
 INSERT INTO categories (name, slug, description) VALUES
 ('Línea Íntima', 'linea-intima', 'Prendas íntimas cómodas y elegantes'),
@@ -250,4 +264,7 @@ CREATE TRIGGER update_payments_updated_at BEFORE UPDATE ON payments
 FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_shipments_updated_at BEFORE UPDATE ON shipments
+FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_product_sizes_updated_at BEFORE UPDATE ON product_sizes
 FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

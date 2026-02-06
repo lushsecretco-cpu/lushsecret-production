@@ -22,7 +22,9 @@ export default function EditarProductoPage() {
     stock: '',
     category_id: '',
     main_image_url: '',
+    sizes: [],
   });
+  const [newSize, setNewSize] = useState({ size: '', stock: '' });
 
   // Cargar categorías
   useEffect(() => {
@@ -52,6 +54,7 @@ export default function EditarProductoPage() {
           stock: product.stock || '',
           category_id: product.category_id || '',
           main_image_url: product.main_image_url || '',
+          sizes: product.sizes || [],
         });
       } catch (error) {
         console.error('Error loading product:', error);
@@ -80,6 +83,25 @@ export default function EditarProductoPage() {
         .replace(/\s+/g, '-');
       setForm((prev) => ({ ...prev, slug }));
     }
+  };
+
+  const addSize = () => {
+    if (!newSize.size || !newSize.stock) {
+      alert('Por favor completa talla y stock');
+      return;
+    }
+    setForm((prev) => ({
+      ...prev,
+      sizes: [...prev.sizes, { ...newSize }],
+    }));
+    setNewSize({ size: '', stock: '' });
+  };
+
+  const removeSize = (index) => {
+    setForm((prev) => ({
+      ...prev,
+      sizes: prev.sizes.filter((_, i) => i !== index),
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -280,6 +302,50 @@ export default function EditarProductoPage() {
                 placeholder="https://via.placeholder.com/500x500"
                 className="admin-input w-full px-4 py-2 border rounded-lg focus:outline-none"
               />
+            </div>
+
+            {/* Tallas */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Tallas</label>
+              <div className="space-y-2 mb-3">
+                {form.sizes.map((size, index) => (
+                  <div key={index} className="flex items-center gap-2 bg-gray-100 p-3 rounded-lg">
+                    <span className="flex-1">
+                      <strong>{size.size}</strong> - Stock: {size.stock}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removeSize(index)}
+                      className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newSize.size}
+                  onChange={(e) => setNewSize((prev) => ({ ...prev, size: e.target.value }))}
+                  placeholder="Ej: S, M, L, XL"
+                  className="admin-input flex-1 px-4 py-2 border rounded-lg focus:outline-none"
+                />
+                <input
+                  type="number"
+                  value={newSize.stock}
+                  onChange={(e) => setNewSize((prev) => ({ ...prev, stock: e.target.value }))}
+                  placeholder="Stock"
+                  className="admin-input w-24 px-4 py-2 border rounded-lg focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={addSize}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600"
+                >
+                  Agregar
+                </button>
+              </div>
             </div>
 
             {/* Botones */}
