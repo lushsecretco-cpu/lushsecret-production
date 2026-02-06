@@ -7,8 +7,8 @@ import { sendVerificationCodeEmail } from '../services/emailService.js';
 const generateToken = (user) => {
   return jwt.sign(
     { id: user.id, email: user.email, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRE || '1h' }
+    process.env.JWT_SECRET || 'lushsecret_jwt_super_secret_2026',
+    { expiresIn: process.env.JWT_EXPIRE || '7d' }
   );
 };
 

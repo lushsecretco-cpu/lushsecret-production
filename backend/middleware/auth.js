@@ -9,7 +9,7 @@ export const authenticateToken = (req, res, next) => {
     return res.status(401).json({ message: 'No token provided' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET || 'lushsecret_jwt_super_secret_2026', (err, user) => {
     if (err) {
       console.error('Token verification error:', err.message);
       return res.status(403).json({ message: 'Invalid or expired token' });
@@ -38,8 +38,8 @@ export const adminSecretAuth = (req, res, next) => {
     // Crear token JWT para sesión de admin
     const token = jwt.sign(
       { id: 0, email: 'admin@lushsecret.co', role: 'ADMIN' },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRE || '1h' }
+      process.env.JWT_SECRET || 'lushsecret_jwt_super_secret_2026',
+      { expiresIn: process.env.JWT_EXPIRE || '7d' }
     );
     return res.json({ token, message: 'Admin access granted' });
   }
